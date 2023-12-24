@@ -56,7 +56,12 @@ def predict_image(imgByBase64):
 class ModelController(Resource):
     @app.route("/api/Model/PostImage/",methods=["POST"])
     def handleImage():
-        return  predict_image(request.json["content"]), 200
+        
+        try:
+            predicted_class_name = predict_image(request.json["content"])
+            return predicted_class_name, 200
+        except:
+            return "Bad Request", 400
 
 if __name__ == '__main__':
     app.run(debug=True)
